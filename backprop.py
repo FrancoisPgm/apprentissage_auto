@@ -39,23 +39,20 @@ if __name__=='__main__':
 	for ii in range (100000):
 		# Passe avant : calcul de la sortie prédite Y_pred #
 
-		I1 = X.dot(W1) + b1 # Potentiel d'entrée de la couche cachée
-		O1 = 1/(1+np.exp(-I1)) # Sortie de la couche cachée (fonction d'activation de type sigmoïde)
+		I1 = X.dot(W1) + b1
+		O1 = 1/(1+np.exp(-I1))
 
+		I2 = O1.dot(W2) + b2
+		O2  =  1/(1+np.exp(-I2))
+		Y_pred = O2
 
-		I2 = O1.dot(W2) + b2 # Potentiel d'entrée de la couche de sortie
-		O2  =  1/(1+np.exp(-I2))  #  Sortie  de  la  couche  de  sortie  (fonction  d'activation  de  type sigmoïde)
-		Y_pred = O2 # Les valeurs prédites sont les sorties de la couche de sortie
-
-		# Calcul et affichage de la fonction perte de type MSE #
 		loss = np.square(Y_pred -Y).sum() / 2
 		if not ii%25000:
 			print(loss)
 
+		# Backprog
 		l2_error=Y-Y_pred
 		l2_delta=l2_error*(Y_pred*(1-Y_pred))
-
-		# print(l2_delta.shape)
 		l1_error=l2_delta.dot(W2.T)
 		l1_delta=l1_error*(O1* (1 - O1))
 
@@ -65,31 +62,6 @@ if __name__=='__main__':
 
 		b1 += lr * l1_delta.sum(axis=0)
 		W1 += lr * X.T.dot(l1_delta)
-
-
-
-		# b2+=lr*O1.T.dot(l2_delta)
-		# W2+=lr*O1.T.dot(l2_delta)
-
-
-
-
-
-		# new_b2=b2+lr*(Y_pred*(1-Y_pred))*loss
-		# new_W2=W2+lr*O1.T.dot(Y_pred*(1-Y_pred)*loss)
-		# new_O1=O1+lr*(Y_pred*(1-Y_pred)*loss).dot(W2.T)
-        #
-		# b2 = new_b2
-		# W2 = new_W2
-		# O1=new_O1
-        #
-		# new_b1 = b1 + lr * (O1 * (1 - O1)*loss)
-		# new_W1 = W1 + lr * loss * X.T.dot(O1 * (1 - O1)*loss)
-        #
-		# b1=new_b1
-		# W1=new_W1
-
-
 
 
 
