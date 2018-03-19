@@ -4,6 +4,8 @@ import random
 from tqdm import tqdm
 import cv2
 import matplotlib.pyplot as plt
+from skimage.feature import hog
+from skimage import data, exposure
 
 # from Crypto.Util.number import size
 from mnist import MNIST
@@ -102,6 +104,13 @@ def cross_validation(n, X, Y, K):
 	print "ecart-type : "+str(ecartype(evals))
 
 
+def computeHOG(image):
+	# image = image[:, :, 0]
+	# print(image.shape)
+	hog_image = hog(image, orientations=4, pixels_per_cell=(4, 4),
+					cells_per_block=(1, 1))
+	return hog_image
+
 if __name__=='__main__':
 
 	Xapp, Yapp, Xtest, Ytest = lecture_mnist('MNIST-data')
@@ -111,13 +120,11 @@ if __name__=='__main__':
 
 	if(True):
 		data2=[]
-		for ii in range(len(data)):
-			data2.append(data[ii].reshape((28,28)))
-		data=data2
+		for ii in tqdm(range(len(data)),desc='HOG Computation'):
+			data2.append(np.asarray(computeHOG(data[ii].reshape((28,28)))))
+
+		data=np.asarray(data2)
 
 	print(data[0].shape)
-	plt.figure()
-	plt.imshow(data[0])
-	plt.show()
-	# cross_validation(60, data, labels, 3)
+	cross_validation(60, data, labels, 3)
 
