@@ -1,6 +1,9 @@
 #-*- coding: utf-8 -*-
 import numpy as np
 import random
+from tqdm import tqdm
+
+from Crypto.Util.number import size
 from mnist import MNIST
 
 def lecture_mnist(chemin):
@@ -78,10 +81,10 @@ def cross_validation(n, X, Y, K):
 	evals=[]
 
 	for i in range(n):
-		X_folds.append([X[k+i] for k in range(size_fold)])
-		Y_folds.append([Y[k+i] for k in range(size_fold)])
+		X_folds.append([X[k+i*size_fold] for k in range(size_fold)])
+		Y_folds.append([Y[k+i*size_fold] for k in range(size_fold)])
 
-	for i in range(n):
+	for i in tqdm(range(n)):
 		Xapp=[]
 		Yapp=[]
 
