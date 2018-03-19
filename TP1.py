@@ -100,23 +100,24 @@ def cross_validation(n, X, Y, K):
 		Ypred = kppv_predict(dist, np.array(Yapp), K)
 		evals.append(evaluation_classifieur(Ypred, Y_folds[i]))
 
-	print "perf moyenne : "+str(moyenne(evals))
-	print "ecart-type : "+str(ecartype(evals))
+	print ("perf moyenne : "+str(moyenne(evals)))
+	print ("ecart-type : "+str(ecartype(evals)))
 
 
 def computeHOG(image):
 	# image = image[:, :, 0]
 	# print(image.shape)
-	hog_image = hog(image, orientations=4, pixels_per_cell=(4, 4),
-					cells_per_block=(1, 1))
+	hog_image = hog(image, orientations=9, pixels_per_cell=(4,4),
+					cells_per_block=(2, 2))
 	return hog_image
 
 if __name__=='__main__':
 
+	print('Loading MNIST')
 	Xapp, Yapp, Xtest, Ytest = lecture_mnist('MNIST-data')
-
-	data=Xapp[:6000]
-	labels=Yapp[:6000]
+	print('Done')
+	data=Xapp[:18000]
+	labels=Yapp[:18000]
 
 	if(True):
 		data2=[]
@@ -125,6 +126,5 @@ if __name__=='__main__':
 
 		data=np.asarray(data2)
 
-	print(data[0].shape)
 	cross_validation(60, data, labels, 3)
 
