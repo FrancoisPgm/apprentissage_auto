@@ -3,8 +3,9 @@ import numpy as np
 import random
 from tqdm import tqdm
 import cv2
+import matplotlib.pyplot as plt
 
-from Crypto.Util.number import size
+# from Crypto.Util.number import size
 from mnist import MNIST
 
 def lecture_mnist(chemin):
@@ -107,5 +108,16 @@ if __name__=='__main__':
 
 	data=Xapp[:6000]
 	labels=Yapp[:6000]
-	cross_validation(60, data, labels, 3)
+
+	if(True):
+		data2=[]
+		for ii in range(len(data)):
+			data2.append(data[ii].reshape((28,28)))
+		data=data2
+
+	print(data[0].shape)
+	plt.figure()
+	plt.imshow(data[0])
+	plt.show()
+	# cross_validation(60, data, labels, 3)
 
