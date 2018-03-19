@@ -2,6 +2,7 @@
 import numpy as np
 import random
 from tqdm import tqdm
+import cv2
 
 from Crypto.Util.number import size
 from mnist import MNIST
@@ -103,9 +104,8 @@ def cross_validation(n, X, Y, K):
 if __name__=='__main__':
 
 	Xapp, Yapp, Xtest, Ytest = lecture_mnist('MNIST-data')
-	# dist = kppv_distances(Xtest[:1000], Xapp[:6000])
-	# Ypred = kppv_predict(dist, Yapp[:6000], 3)
-	# print evaluation_classifieur(Ypred, Ytest[:1000])
-	cross_validation(60, Xapp[:6000], Yapp[:6000], 3)
-	
+
+	data=Xapp[:6000]
+	labels=Yapp[:6000]
+	cross_validation(60, data, labels, 3)
 
